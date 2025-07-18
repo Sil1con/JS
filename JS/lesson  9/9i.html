@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Cart</title>
+    </head>
+    <body>
+        <button onclick="">Show Quantity</button>
+        <button onclick="increase(1)">Add to Cart</button>
+        <button onclick="increase(2)">+2</button>
+        <button onclick="increase(3)">+3</button>
+        <button onclick="increase(4)">+4</button>
+        <button onclick="increase(5)">+5</button>
+        <button onclick="decrease(1)">Remove from the cart</button>
+        <button onclick="decrease(2)">-2</button>
+        <button onclick="decrease(3)">-3</button>
+        <button onclick="decrease(4)">-4</button>
+        <p class="js-cart"></p>
+
+        <script>
+            let cartAmount = Number(localStorage.getItem('cartAmount')) || 0;
+            const cartPara = document.querySelector('.js-cart');
+            cartPara.innerHTML = `Cart amount: ${cartAmount}`;
+
+            function increase(amount) {
+                cartAmount += amount;
+                localStorage.setItem('cartAmount', cartAmount);
+                cartPara.innerHTML = `Cart amount: ${cartAmount}`;
+            }
+
+            function decrease(amount) {
+                if (cartAmount - amount < 0) cartAmount = 0;
+                else cartAmount -= amount;
+                localStorage.setItem('cartAmount', cartAmount);
+                cartPara.innerHTML = `Cart amount: ${cartAmount}`;
+            }
+        </script>
+    </body>
+</html>

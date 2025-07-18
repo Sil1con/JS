@@ -1,0 +1,28 @@
+p {
+    margin: 0;
+}
+
+.amazon-grid {
+    width: 200px;
+    display: grid;
+    grid-template-rows: 1fr;
+    row-gap: 15px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    border-style: solid;
+    border-width: 2px;
+}
+
+.add-button {
+    background-color: yellow;
+}
+
+.buy-button {
+    background-color: orange;
+}
