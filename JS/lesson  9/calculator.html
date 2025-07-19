@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>calc</title>
+        <style>
+            .calc-grid {
+                width: 150px;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                column-gap: 10px;
+                row-gap: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <p class="js-output"></p>
+        <div class="calc-grid">
+            <button onclick="updateOutput('1')">1</button>
+            <button onclick="updateOutput('2')">2</button>
+            <button onclick="updateOutput('3')">3</button>
+            <button onclick="updateOutput('4')">4</button>
+            <button onclick="updateOutput('5')">5</button>
+            <button onclick="updateOutput('6')">6</button>
+            <button onclick="updateOutput('7')">7</button>
+            <button onclick="updateOutput('8')">8</button>
+            <button onclick="updateOutput('9')">9</button>
+            <button onclick="updateOutput('+')">+</button>
+            <button onclick="calculate(calculation)">=</button>
+            <button onclick="cleanOutput()">C</button>
+        </div>
+        
+        <script>
+            let calculation = localStorage.getItem('calculation') || '';
+
+            function calculate() {
+                let result = eval(calculation);
+                if (result !== undefined) {
+                    document.querySelector('.js-output').innerHTML = result;
+                    calculation = '';
+                }
+            }
+
+            function updateOutput(str) {
+                calculation += str;
+                localStorage.setItem('calculation', calculation);
+                const jsOutput = document.querySelector('.js-output');
+                jsOutput.innerHTML = calculation;
+            }
+
+            function cleanOutput() {
+                document.querySelector('.js-output').innerHTML = ' ';
+                localStorage.setItem('calculation', '');
+            }
+        </script>
+
+    </body>
+</html>
