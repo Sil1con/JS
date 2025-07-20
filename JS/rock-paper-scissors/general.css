@@ -1,0 +1,55 @@
+body {
+    background-color: rgb(25, 25, 25);
+    font-family: Roboto, Arial;
+}
+
+p {
+    color: white;
+    
+}
+
+.title {
+    font-size: 25px; 
+}
+
+.button-grid {
+    width: 380px;
+    display: grid;
+    grid-template-columns: 120px 120px 120px;
+    column-gap: 10px;
+}
+
+.rock-btn, .paper-btn, .scissors-btn {
+    height: 120px;
+    background-color: transparent;
+    border-style: solid;
+    border-radius: 50%;
+    border-color: white;
+    cursor: pointer;
+
+    transition: background-color 250ms;
+}
+
+.rock-btn:hover, .paper-btn:hover, .scissors-btn:hover {
+    background-color: white;
+}
+
+.move-img {
+    height: 50px;
+}
+
+.reset-btn {
+    height: 35px;
+    width: 120px;
+    border-style: solid;
+    border-color: white;
+    border-radius: 5px;
+
+    transition: background-color 250ms, color 250ms;
+}
+
+.reset-btn:hover {
+    color: white;
+    background-color: rgb(25, 25, 25);
+    cursor: pointer;
+}
