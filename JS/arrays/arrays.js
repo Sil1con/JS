@@ -48,10 +48,14 @@ function countPositive(arr) {
 }
 
 function countWords() {
-    const items = [];
-    const amountOfItems = [];
+    const final = {};
 
     for (let i = 0; i < strArr.length; i++) {
-        
+        const word = strArr[i];
+
+        if (!final[word]) result[word] = 1;
+        else result[word]++;
     }
+
+    console.log(final);
 }
