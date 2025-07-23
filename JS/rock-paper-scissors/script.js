@@ -3,7 +3,7 @@ const jsScore = document.querySelector('.js-score');
 jsScore.innerHTML = `Wins: ${score.wins}, Losses: ${score.loses}, Ties: ${score.ties}`;
 
 function playGame(playerMove) {
-    const compMove = getComputerMove();
+    const compMove = getRandomMove();
     let result = '';
 
     if (playerMove === 'rock') {
@@ -42,7 +42,7 @@ function playGame(playerMove) {
     updateScore();
 }
 
-function getComputerMove() {
+function getRandomMove() {
     let rand = Math.random();
     let computerMove = '';
 
@@ -61,4 +61,19 @@ function resetScore() {
 function updateScore() {
     score = JSON.parse(localStorage.getItem('score'));
     jsScore.innerHTML = `Wins: ${score.wins}, Losses: ${score.loses}, Ties: ${score.ties}`;
+}
+
+let isPlaying = false;
+let intervalID;
+
+function autoplay() {
+    if (!isPlaying) {
+        intervalID = setInterval(function () {playGame(getRandomMove());}, 500);
+        document.querySelector('.auto-btn').innerHTML = 'Stop';
+        isPlaying = true;
+    } else {
+        clearInterval(intervalID);
+        document.querySelector('.auto-btn').innerHTML = 'Auto Play';
+        isPlaying = false;
+    }
 }

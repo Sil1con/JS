@@ -5,7 +5,6 @@ body {
 
 p {
     color: white;
-    
 }
 
 .title {
@@ -38,7 +37,7 @@ p {
     height: 50px;
 }
 
-.reset-btn {
+.reset-btn, .auto-btn {
     height: 35px;
     width: 120px;
     border-style: solid;
@@ -48,7 +47,7 @@ p {
     transition: background-color 250ms, color 250ms;
 }
 
-.reset-btn:hover {
+.reset-btn:hover, .auto-btn:hover {
     color: white;
     background-color: rgb(25, 25, 25);
     cursor: pointer;
