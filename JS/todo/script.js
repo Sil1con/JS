@@ -22,18 +22,17 @@ function showAllTodos() {
         todoListHTML += html;
     }
 
-    document.querySelector('.js-todo-list').innerHTML = todoListHTML;
+    document.querySelector('.js-todo-list-grid').innerHTML = todoListHTML;
 }
 
 function createTodoHTML(todoObj, index) {
     const html = `
-        <p>
-            ${todoObj.todo} ${todoObj.dueDate} 
-            <button onclick="
-                todoList.splice(${index}, 1);
-                showAllTodos();
-            ">Delete</button>
-        </p>
+        <div>${todoObj.todo}</div>
+        <div>${todoObj.dueDate}</div>    
+        <button class="delete-btn" onclick="
+            todoList.splice(${index}, 1);
+            showAllTodos();
+        ">Delete</button>
     `;
 
     return html;

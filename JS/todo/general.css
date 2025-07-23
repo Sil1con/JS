@@ -2,6 +2,36 @@ body {
     font-family: Roboto, Arial;
 }
 
-.js-todo-list {
+.todo-input, .due-date {
+    font-size: 15px;
+    padding: 6px;
+}
+
+.add-btn {
+    color: white;
+    background-color: green;
+    border: none;
+}
+
+.js-todo-list-grid {
+    margin-top: 15px;
+}
+
+.delete-btn {
+    color: white;
+    background-color: rgb(179, 0, 0);
+    border: none;
+    padding: 10px;
+}
+
+.js-todo-list-grid, .js-input-grid {
+    display: grid;
     font-size: 13px;
+    grid-template-columns: 250px 150px 100px;
+    column-gap: 5px;
+}
+
+.js-todo-list-grid {
+    row-gap: 10px;
+    align-items: center;
 }
