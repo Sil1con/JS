@@ -1,3 +1,8 @@
+import {addItemToCart} from '../data/cart.js';
+import {updateCartQuantity} from '../data/cart.js';
+import {checkCartItemsQuantity} from '../data/cart.js';
+import {products} from '../data/products.js';
+
 let productsHTML = '';
 
 updateCartQuantity(checkCartItemsQuantity());
@@ -43,7 +48,7 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-item-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>

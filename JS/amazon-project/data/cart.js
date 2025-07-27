@@ -1,11 +1,11 @@
-const cart = [
+export const cart = [
     {
         id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
         quantity: 1
     }
 ];
 
-function addItemToCart(productID) {
+export function addItemToCart(productID) {
     let repeatedItem;
     let itemsQuantity = 0;
 
@@ -29,14 +29,14 @@ function addItemToCart(productID) {
     updateCartQuantity(itemsQuantity);
 }
 
-function updateCartQuantity(amount) {
+export function updateCartQuantity(amount) {
     const cartQuant = document.querySelector('.js-cart-quantity');
 
     if (amount === undefined) cartQuant.innerHTML = 0; 
     else cartQuant.innerHTML = amount;
 }
 
-function checkCartItemsQuantity() {
+export function checkCartItemsQuantity() {
     let itemsQuantity = 0;
 
     cart.forEach((item) => {
@@ -44,4 +44,8 @@ function checkCartItemsQuantity() {
     });
 
     return itemsQuantity;
+}
+
+function showAddedLogo(id) {
+    //const 
 }
