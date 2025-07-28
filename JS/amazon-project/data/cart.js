@@ -2,17 +2,15 @@ export const cart = [
     {
         id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
         quantity: 1
+    },
+    {
+        id: "54e0eccd-8f36-462b-b68a-8182611d9add",
+        quantity: 2
     }
 ];
 
 export function addItemToCart(productID) {
-    let repeatedItem;
-    let itemsQuantity = 0;
-
-    cart.forEach((item) => {
-        itemsQuantity += item.quantity;
-        if(productID === item.id) repeatedItem = item;
-    });
+    let repeatedItem = findMatchingProduct(productID);
 
     const selectedQuanity = Number(document.querySelector(`.js-select-quantity-${productID}`).value);
 
@@ -24,9 +22,8 @@ export function addItemToCart(productID) {
             quantity: selectedQuanity
         });
     }
-    itemsQuantity += selectedQuanity;
 
-    updateCartQuantity(itemsQuantity);
+    updateCartQuantity(checkCartItemsQuantity());
 }
 
 export function updateCartQuantity(amount) {
@@ -46,6 +43,16 @@ export function checkCartItemsQuantity() {
     return itemsQuantity;
 }
 
-function showAddedLogo(id) {
-    //const 
+function findMatchingProduct(productID) {
+    let matchingItem;
+
+    cart.forEach((cartItem) => {
+        if (cartItem.id === productID) matchingItem = cartItem;
+    });
+
+    return matchingItem;
+}
+
+export function deleteItemFromCart(productID) {
+
 }
