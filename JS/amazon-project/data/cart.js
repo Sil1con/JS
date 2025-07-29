@@ -1,13 +1,10 @@
-export const cart = [
-    {
-        id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-        quantity: 1
-    },
-    {
-        id: "54e0eccd-8f36-462b-b68a-8182611d9add",
-        quantity: 2
-    }
-];
+//import { updateCheckoutQuantity } from "../scripts/checkout.js";
+
+export let cart = JSON.parse(localStorage.getItem('cart'));
+
+function saveToCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
 
 export function addItemToCart(productID) {
     let repeatedItem = findMatchingProduct(productID);
@@ -24,6 +21,7 @@ export function addItemToCart(productID) {
     }
 
     updateCartQuantity(checkCartItemsQuantity());
+    saveToCart();
 }
 
 export function updateCartQuantity(amount) {
@@ -53,6 +51,23 @@ function findMatchingProduct(productID) {
     return matchingItem;
 }
 
-export function deleteItemFromCart(productID) {
+function findMatchingProductIndex(productID) {
+    let matchingItemIndex;
 
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id === productID) matchingItemIndex = i;
+    }
+
+    return matchingItemIndex;
+}
+
+export function deleteItemFromCart(productID) {
+    let mathcingItemIndex = findMatchingProductIndex(productID);
+
+    if (mathcingItemIndex !== undefined) {
+        cart.splice(mathcingItemIndex, 1);
+    }
+
+    //updateCheckoutQuantity();
+    saveToCart();
 }

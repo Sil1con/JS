@@ -1,15 +1,26 @@
-import { cart } from '../data/cart.js';
+import { cart, checkCartItemsQuantity, deleteItemFromCart } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utilities/money.js';
 
 updateCart();
+//updateCheckoutQuantity();
+
+document.querySelectorAll('.delete-quantity-link').forEach((link) => {
+    link.addEventListener('click', () => {
+        const itemID = link.dataset.productId;
+        deleteItemFromCart(itemID);
+        
+        const container = document.querySelector(`.js-cart-item-container-${itemID}`);
+        container.remove();
+    });
+});
 
 function updateCart() {
     let cartHTML = '';
     cart.forEach((cartItem) => {
         let matchingItem = findMatchingItem(cartItem.id);
         cartHTML += `
-            <div class="cart-item-container">
+            <div class="cart-item-container js-cart-item-container-${matchingItem.id}">
                 <div class="delivery-date">
                 Delivery date: Tuesday, June 21
                 </div>
@@ -89,12 +100,14 @@ function updateCart() {
     document.querySelector('.js-order-summary').innerHTML = cartHTML;
 }
 
-document.querySelectorAll('.delete-quantity-link').forEach((link) => {
-    link.addEventListener('click', () => {
-        const itemID = link.dataset.productId;
-        console.log(itemID);
-    });
-});
+// export function updateCheckoutQuantity() {
+//     const checkout = document.querySelector('.js-return-to-home-link');
+//     const quantity = checkCartItemsQuantity();
+
+//     if (quantity === 0) checkout.innerHTML = 'empty';
+//     else if (quantity === 1) checkout.innerHTML = '1 item';
+//     else checkout.innerHTML = `${quantity} items`;
+// }
 
 function findMatchingItem(cartItemID) {
     let matchingItem;
