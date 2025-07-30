@@ -1,9 +1,9 @@
-import { cart, checkCartItemsQuantity, deleteItemFromCart } from '../data/cart.js';
+import { cart, checkCartItemsQuantity, findMatchingProductIndex, saveToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utilities/money.js';
 
 updateCart();
-//updateCheckoutQuantity();
+updateCheckoutQuantity();
 
 document.querySelectorAll('.delete-quantity-link').forEach((link) => {
     link.addEventListener('click', () => {
@@ -12,6 +12,7 @@ document.querySelectorAll('.delete-quantity-link').forEach((link) => {
         
         const container = document.querySelector(`.js-cart-item-container-${itemID}`);
         container.remove();
+        updateOrderSummary();
     });
 });
 
@@ -100,15 +101,60 @@ function updateCart() {
     document.querySelector('.js-order-summary').innerHTML = cartHTML;
 }
 
-// export function updateCheckoutQuantity() {
-//     const checkout = document.querySelector('.js-return-to-home-link');
-//     const quantity = checkCartItemsQuantity();
+export function updateCheckoutQuantity() {
+    const checkoutLink = document.querySelector('.js-return-to-home-link');
+    const quantity = checkCartItemsQuantity();
 
-//     if (quantity === 0) checkout.innerHTML = 'empty';
-//     else if (quantity === 1) checkout.innerHTML = '1 item';
-//     else checkout.innerHTML = `${quantity} items`;
-// }
+    if (quantity === 0) checkoutLink.innerHTML = 'empty';
+    else if (quantity === 1) checkoutLink.innerHTML = '1 item';
+    else checkoutLink.innerHTML = `${quantity} items`;
 
+    updateOrderSummary();
+}
+
+function updateOrderSummary() {
+    if (cart.length === 0) annulOrderSummary();
+    else if (cart.length !== 0) calculateOrderSummary();
+}
+
+function calculateOrderSummary() {
+    const shippingPrice = 499;
+    const taxCoef = 0.1;
+    
+    let itemsQuantity = 0;
+    let itemsPrice = 0;
+
+    cart.forEach((cartItem) => {
+        let matchingItem = findMatchingItem(cartItem.id);
+        itemsPrice += matchingItem.priceCents * cartItem.quantity;
+        itemsQuantity++;
+    });
+
+    let totalBeforeTax = itemsPrice + shippingPrice;
+    let estimatedTax = Math.floor(totalBeforeTax * taxCoef);
+    let totalToBePaid = totalBeforeTax + estimatedTax;
+
+    showOrderSummary(itemsQuantity, itemsPrice, shippingPrice, totalBeforeTax, estimatedTax, totalToBePaid);
+}
+
+function showOrderSummary(itemsQuantity, itemsPrice, shippingPrice, totalBeforeTax, estimatedTax, totalToBePaid) {
+    document.querySelector('.js-payment-items').innerHTML = `Items (${itemsQuantity}):`;
+    document.querySelector('.js-payment-items-price').innerHTML = `$${formatCurrency(itemsPrice)}`;
+    document.querySelector('.js-shipping-price').innerHTML = `$${formatCurrency(shippingPrice)}`;
+    document.querySelector('.js-total-before-tax').innerHTML = `$${formatCurrency(totalBeforeTax)}`;
+    document.querySelector('.js-estimated-tax').innerHTML = `$${formatCurrency(estimatedTax)}`;
+    document.querySelector('.js-order-total').innerHTML = `$${formatCurrency(totalToBePaid)}`;
+}
+
+function annulOrderSummary() {
+    document.querySelector('.js-payment-items').innerHTML = `Items (${0}):`
+    document.querySelector('.js-payment-items-price').innerHTML = `$${formatCurrency(0)}`;
+    document.querySelector('.js-shipping-price').innerHTML = `$${formatCurrency(0)}`;
+    document.querySelector('.js-total-before-tax').innerHTML = `$${formatCurrency(0)}`;
+    document.querySelector('.js-estimated-tax').innerHTML = `$${formatCurrency(0)}`;
+    document.querySelector('.js-order-total').innerHTML = `$${formatCurrency(0)}`;
+}
+ 
 function findMatchingItem(cartItemID) {
     let matchingItem;
 
@@ -120,4 +166,15 @@ function findMatchingItem(cartItemID) {
     });
 
     return matchingItem;
+}
+
+function deleteItemFromCart(cartItemID) {
+    let mathcingItemIndex = findMatchingProductIndex(cartItemID);
+
+    if (mathcingItemIndex !== undefined) {
+        cart.splice(mathcingItemIndex, 1);
+    }
+
+    updateCheckoutQuantity();
+    saveToCart();
 }

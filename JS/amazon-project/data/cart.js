@@ -1,8 +1,6 @@
-//import { updateCheckoutQuantity } from "../scripts/checkout.js";
-
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
-function saveToCart() {
+export function saveToCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
@@ -51,7 +49,7 @@ function findMatchingProduct(productID) {
     return matchingItem;
 }
 
-function findMatchingProductIndex(productID) {
+export function findMatchingProductIndex(productID) {
     let matchingItemIndex;
 
     for (let i = 0; i < cart.length; i++) {
@@ -59,15 +57,4 @@ function findMatchingProductIndex(productID) {
     }
 
     return matchingItemIndex;
-}
-
-export function deleteItemFromCart(productID) {
-    let mathcingItemIndex = findMatchingProductIndex(productID);
-
-    if (mathcingItemIndex !== undefined) {
-        cart.splice(mathcingItemIndex, 1);
-    }
-
-    //updateCheckoutQuantity();
-    saveToCart();
 }
