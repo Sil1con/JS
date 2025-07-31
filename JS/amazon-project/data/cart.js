@@ -1,11 +1,11 @@
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-export function saveToCart() {
+export function  saveToCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 export function addItemToCart(productID) {
-    let repeatedItem = findMatchingProduct(productID);
+    let repeatedItem = findMatchingCartItem(productID);
 
     const selectedQuanity = Number(document.querySelector(`.js-select-quantity-${productID}`).value);
 
@@ -39,7 +39,7 @@ export function checkCartItemsQuantity() {
     return itemsQuantity;
 }
 
-function findMatchingProduct(productID) {
+export function findMatchingCartItem(productID) {
     let matchingItem;
 
     cart.forEach((cartItem) => {
