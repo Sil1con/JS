@@ -13,13 +13,26 @@ document.querySelectorAll('.update-quantity-link').forEach((update) => {
 });
 
 document.querySelectorAll('.save-quantity-link').forEach((save) => {
-    save.addEventListener('click', () => {
+    save.addEventListener('click', () => {        
         const itemID = save.dataset.productId;
         const updatedItemQuantity = Number(document.querySelector(`.js-quantity-input-${itemID}`).value);
         
         document.querySelector(`.js-cart-item-container-${itemID}`).classList.remove('is-editing-quantity');
 
         updateItemQuantity(itemID, updatedItemQuantity);
+    });
+});
+
+document.querySelectorAll('.quantity-input').forEach((input) => {
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            const itemID = input.dataset.productId;
+            const updatedItemQuantity = Number(document.querySelector(`.js-quantity-input-${itemID}`).value);
+            
+            document.querySelector(`.js-cart-item-container-${itemID}`).classList.remove('is-editing-quantity');
+
+            updateItemQuantity(itemID, updatedItemQuantity);
+        }
     });
 });
 
@@ -61,7 +74,7 @@ function updateCart() {
                     <span class="update-quantity-link link-primary" data-product-id="${matchingItem.id}">
                         Update
                     </span>
-                    <input class="quantity-input js-quantity-input-${matchingItem.id}">
+                    <input class="quantity-input js-quantity-input-${matchingItem.id}" data-product-id="${matchingItem.id}">
                     <span class="save-quantity-link link-primary" data-product-id="${matchingItem.id}">
                         Save
                     </span>
@@ -157,7 +170,7 @@ function calculateOrderSummary() {
     cart.forEach((cartItem) => {
         let matchingItem = findMatchingProduct(cartItem.id);
         itemsPrice += matchingItem.priceCents * cartItem.quantity;
-        itemsQuantity++;
+        itemsQuantity += cartItem.quantity;
     });
 
     let totalBeforeTax = itemsPrice + shippingPrice;
