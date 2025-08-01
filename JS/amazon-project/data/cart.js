@@ -1,3 +1,5 @@
+import { getDeliveryOption } from './delivery.js'
+
 export let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 export function  saveToCart() {
@@ -14,7 +16,8 @@ export function addItemToCart(productID) {
     } else {
         cart.push({
             id: productID,
-            quantity: selectedQuanity
+            quantity: selectedQuanity,
+            deliveryOptionId: '1'
         });
     }
 
@@ -57,4 +60,18 @@ export function findMatchingProductIndex(productID) {
     }
 
     return matchingItemIndex;
+}
+
+export function updateItemDeliveryOption(itemID, newDeliveryOptionId) {
+    let cartItem = findMatchingCartItem(itemID);
+    
+    if (cartItem.deliveryOptionId !== newDeliveryOptionId) {
+        cartItem.deliveryOptionId = newDeliveryOptionId;
+    }
+
+    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
+    const date = dayjs().add(deliveryOption.deliveryDays, 'day').format('dddd, MMMM D');
+
+    saveToCart();
+    document.querySelector(`.js-delivery-date-${cartItem.id}`).innerHTML = `Delivery date: ${date}`;
 }

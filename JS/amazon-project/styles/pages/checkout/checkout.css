@@ -158,10 +158,15 @@
   margin-bottom: 10px;
 }
 
+.delivery-options-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+
 .delivery-option {
   display: grid;
   grid-template-columns: 24px 1fr;
-  margin-bottom: 12px;
   cursor: pointer;
 }
 
