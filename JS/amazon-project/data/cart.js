@@ -1,4 +1,5 @@
-import { getDeliveryOption } from './delivery.js'
+import { getDeliveryOption } from './delivery.js';
+import { updateOrderSummary } from '../scripts/checkout.js';
 
 export let cart = JSON.parse(localStorage.getItem('cart')) || [];
 

@@ -47,12 +47,13 @@ document.querySelectorAll('.delete-quantity-link').forEach((link) => {
     });
 });
 
-document.querySelectorAll('.js-delivery-option').forEach((option) => {
+document.querySelectorAll('.delivery-option-input').forEach((option) => {
     option.addEventListener('click', () => {
         const deliveryID = option.dataset.deliveryId;
         const itemID = option.dataset.productId;
 
         updateItemDeliveryOption(itemID, deliveryID);
+        updateOrderSummary();
     });
 });
 
@@ -120,11 +121,13 @@ function addDeliveryOptions(cartItem) {
         const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
         optionsHTML += `
-            <div class="delivery-option js-delivery-option"
-                data-product-id="${cartItem.id}"
-                data-delivery-id="${deliveryOption.id}">
+            <div class="delivery-option js-delivery-option">
                 
-                <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input" name="delivery-option-${cartItem.id}">
+                <input type="radio" ${isChecked ? 'checked' : ''} class="delivery-option-input" 
+                    name="delivery-option-${cartItem.id}"
+                    data-product-id="${cartItem.id}"
+                    data-delivery-id="${deliveryOption.id}"
+                >
                 <div>
                     <div class="delivery-option-date">
                         ${dayStr}
@@ -136,7 +139,6 @@ function addDeliveryOptions(cartItem) {
             </div>
         `;
     });
-
     return optionsHTML;
 }
 
@@ -160,20 +162,21 @@ function updateItemQuantity(itemID, newQuantity) {
     saveToCart();
 }
 
-function updateOrderSummary() {
+export function updateOrderSummary() {
     if (cart.length === 0) annulOrderSummary();
     else if (cart.length !== 0) calculateOrderSummary();
 }
 
 function calculateOrderSummary() {
-    const shippingPrice = 499;
     const taxCoef = 0.1;
     
+    let shippingPrice = 0;
     let itemsQuantity = 0;
     let itemsPrice = 0;
 
     cart.forEach((cartItem) => {
         let matchingItem = findMatchingProduct(cartItem.id);
+        shippingPrice += getDeliveryOption(cartItem.deliveryOptionId).priceCents;
         itemsPrice += matchingItem.priceCents * cartItem.quantity;
         itemsQuantity += cartItem.quantity;
     });
