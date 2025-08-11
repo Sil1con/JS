@@ -25,3 +25,18 @@ export function getDeliveryOption(deliveryID) {
 
     return matchingOption;
 }
+
+export function returnDaysWithoutWeekends(days) {
+    let deliveryDaysTotal = 0;
+
+    for (let i = 0; i < days; i++) {
+        const date = dayjs().add(deliveryDaysTotal, 'day').format('dddd');
+        if (date !== 'Saturday' && date !== 'Sunday') deliveryDaysTotal++; 
+        else {
+            i--;
+            deliveryDaysTotal++;
+            continue;
+        }
+    }
+    return deliveryDaysTotal;
+}

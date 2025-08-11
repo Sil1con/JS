@@ -1,5 +1,4 @@
-import { getDeliveryOption } from './delivery.js';
-import { updateOrderSummary } from '../scripts/checkout.js';
+import { getDeliveryOption, returnDaysWithoutWeekends } from './delivery.js';
 
 export let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -71,7 +70,8 @@ export function updateItemDeliveryOption(itemID, newDeliveryOptionId) {
     }
 
     const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
-    const date = dayjs().add(deliveryOption.deliveryDays, 'day').format('dddd, MMMM D');
+    const deliveryWithoutWeekends = returnDaysWithoutWeekends(deliveryOption.deliveryDays);
+    const date = dayjs().add(deliveryWithoutWeekends, 'day').format('dddd, MMMM D');
 
     saveToCart();
     document.querySelector(`.js-delivery-date-${cartItem.id}`).innerHTML = `Delivery date: ${date}`;

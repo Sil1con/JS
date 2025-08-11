@@ -1,7 +1,7 @@
 import { cart, checkCartItemsQuantity, findMatchingCartItem, findMatchingProductIndex, saveToCart, updateItemDeliveryOption } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utilities/money.js';
-import { deliveryOptions, getDeliveryOption } from '../data/delivery.js'; 
+import { deliveryOptions, getDeliveryOption, returnDaysWithoutWeekends } from '../data/delivery.js'; 
 
 updateCart();
 updateCheckoutQuantity();
@@ -62,7 +62,8 @@ function updateCart() {
     
     cart.forEach((cartItem) => {
         const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
-        const date = dayjs().add(deliveryOption.deliveryDays, 'day').format('dddd, MMMM D');
+        const deliveryDaysWithoutWeekends = returnDaysWithoutWeekends(deliveryOption.deliveryDays);
+        const date = dayjs().add(deliveryDaysWithoutWeekends, 'day').format('dddd, MMMM D');
 
         let matchingProduct = findMatchingProduct(cartItem.id);
 
@@ -115,8 +116,8 @@ function addDeliveryOptions(cartItem) {
     let optionsHTML = '';
     
     deliveryOptions.forEach((deliveryOption) => {
-        const today = dayjs();
-        const deliveryDate = today.add(deliveryOption.deliveryDays, 'day');
+        const deliveryDaysWithoutWeekends = returnDaysWithoutWeekends(deliveryOption.deliveryDays);
+        const deliveryDate = dayjs().add(deliveryDaysWithoutWeekends, 'day');
         const dayStr = deliveryDate.format('dddd, MMMM D');
         const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
