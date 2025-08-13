@@ -1,4 +1,4 @@
 export function formatCurrency(priceCents) {
     if (priceCents < 0) return null;
-    else return (priceCents / 100).toFixed(2);
+    else return (Math.round(priceCents) / 100).toFixed(2);
 }
