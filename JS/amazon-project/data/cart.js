@@ -1,6 +1,12 @@
 import { getDeliveryOption, returnDaysWithoutWeekends } from './delivery.js';
 
-export let cart = JSON.parse(localStorage.getItem('cart')) || [];
+export let cart;
+
+loadFromStorage();
+
+export function loadFromStorage() {
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
+}
 
 export function  saveToCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -9,7 +15,7 @@ export function  saveToCart() {
 export function addItemToCart(productID) {
     let repeatedItem = findMatchingCartItem(productID);
 
-    const selectedQuanity = Number(document.querySelector(`.js-select-quantity-${productID}`).value);
+    const selectedQuanity = getItemQuanityToBeAdded();
 
     if (repeatedItem) {
         repeatedItem.quantity += selectedQuanity;
@@ -29,7 +35,7 @@ export function updateCartQuantity(amount) {
     const cartQuant = document.querySelector('.js-cart-quantity');
 
     if (amount === undefined) cartQuant.innerHTML = 0; 
-    else cartQuant.innerHTML = amount;
+    else if (cartQuant !== null) cartQuant.innerHTML = amount;
 }
 
 export function checkCartItemsQuantity() {
@@ -75,4 +81,10 @@ export function updateItemDeliveryOption(itemID, newDeliveryOptionId) {
 
     saveToCart();
     document.querySelector(`.js-delivery-date-${cartItem.id}`).innerHTML = `Delivery date: ${date}`;
+}
+
+function getItemQuanityToBeAdded(productID) {
+    const quantity = document.querySelector(`.js-select-quantity-${productID}`);
+    if (quantity !== null) return quantity.value;
+    else return 1; 
 }
