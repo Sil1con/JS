@@ -1,7 +1,7 @@
 import { cart, checkCartItemsQuantity, findMatchingCartItem, findMatchingProductIndex, saveToCart, updateItemDeliveryOption } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utilities/money.js';
-import { deliveryOptions, getDeliveryOption, returnDaysWithoutWeekends } from '../data/delivery.js'; 
+import { deliveryOptions, getDeliveryOption, returnDaysWithoutWeekends } from '../data/delivery.js';
 
 updateCart();
 updateCheckoutQuantity();
