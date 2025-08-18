@@ -43,7 +43,7 @@
       "mens"
     ],
     "type": "clothing",
-    "sizeChartLink": "images/clothing-size-chart.png"
+    "sizeChartLink": "amazon-project/images/clothing-size-chart.png"
   },
   {
     "id": "54e0eccd-8f36-462b-b68a-8182611d9add",
@@ -167,7 +167,7 @@
       "apparel"
     ],
     "type": "clothing",
-    "sizeChartLink": "images/clothing-size-chart.png"
+    "sizeChartLink": "amazon-project/images/clothing-size-chart.png"
   },
   {
     "id": "aad29d11-ea98-41ee-9285-b916638cac4a",
@@ -310,7 +310,7 @@
       "apparel"
     ],
     "type": "clothing",
-    "sizeChartLink": "images/clothing-size-chart.png"
+    "sizeChartLink": "amazon-project/images/clothing-size-chart.png"
   },
   {
     "id": "a93a101d-79ef-4cf3-a6cf-6dbe532a1b4a",
@@ -359,7 +359,7 @@
       "mens"
     ],
     "type": "clothing",
-    "sizeChartLink": "images/clothing-size-chart.png"
+    "sizeChartLink": "amazon-project/images/clothing-size-chart.png"
   },
   {
     "id": "b86ddc8b-3501-4b17-9889-a3bad6fb585f",

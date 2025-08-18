@@ -24,6 +24,23 @@ class Product {
   getStarsUrl() {
     return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
+
+    getExtraHTML() {
+    return '';
+  }
+}
+
+class Clothing extends Product {
+  sizeChartLink;
+
+  constructor(productDetails) {
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  getExtraHTML() {
+    return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`;
+  }
 }
 
 export const products = [
@@ -686,5 +703,6 @@ export const products = [
     ]
   }
 ].map((productDetails) => {
+  if (productDetails.type === 'clothing') return new Clothing(productDetails);
   return new Product(productDetails);
 });

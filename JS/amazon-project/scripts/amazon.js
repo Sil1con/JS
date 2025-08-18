@@ -46,6 +46,8 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
+          ${product.getExtraHTML()}
+
           <div class="added-to-cart js-added-item-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
