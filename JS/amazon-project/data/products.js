@@ -25,7 +25,7 @@ class Product {
     return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
 
-    getExtraHTML() {
+  getExtraHTML() {
     return '';
   }
 }
@@ -43,6 +43,25 @@ class Clothing extends Product {
   }
 }
 
+class Appliance extends Product {
+  instructionLink;
+  warrantyLink;
+
+  constructor(productDetails) {
+    super(productDetails);
+    this.instructionLink = productDetails.instructionLink;
+    this.warrantyLink = productDetails.warrantyLink;
+  }
+
+  getExtraHTML() {
+    return `
+      <a href="${this.instructionLink}" target="_blank">Instruction</a>
+      <a href="${this.warrantyLink}" target="_blank">Instruction</a>
+    `;
+  }
+}
+
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -103,7 +122,10 @@ export const products = [
       "toaster",
       "kitchen",
       "appliances"
-    ]
+    ],
+    type: "appliance",
+    instructionLink: "amazon-project/images/appliance-instructions.png",
+    warrantyLink: "amazon-project/images/appliance-warranty.png"
   },
   {
     id: "3ebe75dc-64d2-4137-8860-1f5a963e534b",
@@ -702,7 +724,22 @@ export const products = [
       "mens"
     ]
   }
-].map((productDetails) => {
-  if (productDetails.type === 'clothing') return new Clothing(productDetails);
-  return new Product(productDetails);
-});
+]
+*/
+
+export let products = [];
+
+export function loadProducts() {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if (productDetails.type === 'clothing') return new Clothing(productDetails);
+      if (productDetails.type === 'appliance') return new Appliance(productDetails);
+      return new Product(productDetails);
+    });
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send();
+}

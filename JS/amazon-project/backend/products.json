@@ -58,7 +58,10 @@
       "toaster",
       "kitchen",
       "appliances"
-    ]
+    ],
+    "type": "appliance",
+    "instructionLink": "amazon-project/images/appliance-instructions.png",
+    "warrantyLink": "amazon-project/images/appliance-warranty.png"
   },
   {
     "id": "3ebe75dc-64d2-4137-8860-1f5a963e534b",
