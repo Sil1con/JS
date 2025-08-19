@@ -1,61 +1,66 @@
 import { cart, checkCartItemsQuantity, findMatchingCartItem, findMatchingProductIndex, saveToCart, updateItemDeliveryOption } from '../data/cart.js';
-import { products } from '../data/products.js';
+import { products, loadProducts } from '../data/products.js';
 import { formatCurrency } from './utilities/money.js';
 import { deliveryOptions, getDeliveryOption, returnDaysWithoutWeekends } from '../data/delivery.js';
 
-updateCart();
-updateCheckoutQuantity();
-
-document.querySelectorAll('.update-quantity-link').forEach((update) => {
-    update.addEventListener('click', () => {
-        const itemID = update.dataset.productId;
-        document.querySelector(`.js-cart-item-container-${itemID}`).classList.add('is-editing-quantity');
-    });
+loadProducts(() => {
+    updateCart();
+    updateCheckoutQuantity();
+    setAllListeners();
 });
 
-document.querySelectorAll('.save-quantity-link').forEach((save) => {
-    save.addEventListener('click', () => {        
-        const itemID = save.dataset.productId;
-        const updatedItemQuantity = Number(document.querySelector(`.js-quantity-input-${itemID}`).value);
-        
-        document.querySelector(`.js-cart-item-container-${itemID}`).classList.remove('is-editing-quantity');
-
-        updateItemQuantity(itemID, updatedItemQuantity);
+function setAllListeners() {
+    document.querySelectorAll('.update-quantity-link').forEach((update) => {
+        update.addEventListener('click', () => {
+            const itemID = update.dataset.productId;
+            document.querySelector(`.js-cart-item-container-${itemID}`).classList.add('is-editing-quantity');
+        });
     });
-});
 
-document.querySelectorAll('.quantity-input').forEach((input) => {
-    input.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            const itemID = input.dataset.productId;
+    document.querySelectorAll('.save-quantity-link').forEach((save) => {
+        save.addEventListener('click', () => {        
+            const itemID = save.dataset.productId;
             const updatedItemQuantity = Number(document.querySelector(`.js-quantity-input-${itemID}`).value);
             
             document.querySelector(`.js-cart-item-container-${itemID}`).classList.remove('is-editing-quantity');
 
             updateItemQuantity(itemID, updatedItemQuantity);
-        }
+        });
     });
-});
 
-document.querySelectorAll('.delete-quantity-link').forEach((link) => {
-    link.addEventListener('click', () => {
-        const itemID = link.dataset.productId;
-        deleteItemFromCart(itemID);
-        
-        removeItemContainer(itemID);
-        updateOrderSummary();
+    document.querySelectorAll('.quantity-input').forEach((input) => {
+        input.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                const itemID = input.dataset.productId;
+                const updatedItemQuantity = Number(document.querySelector(`.js-quantity-input-${itemID}`).value);
+                
+                document.querySelector(`.js-cart-item-container-${itemID}`).classList.remove('is-editing-quantity');
+
+                updateItemQuantity(itemID, updatedItemQuantity);
+            }
+        });
     });
-});
 
-document.querySelectorAll('.delivery-option-input').forEach((option) => {
-    option.addEventListener('click', () => {
-        const deliveryID = option.dataset.deliveryId;
-        const itemID = option.dataset.productId;
-
-        updateItemDeliveryOption(itemID, deliveryID);
-        updateOrderSummary();
+    document.querySelectorAll('.delete-quantity-link').forEach((link) => {
+        link.addEventListener('click', () => {
+            const itemID = link.dataset.productId;
+            deleteItemFromCart(itemID);
+            
+            removeItemContainer(itemID);
+            updateOrderSummary();
+        });
     });
-});
+
+    document.querySelectorAll('.delivery-option-input').forEach((option) => {
+        option.addEventListener('click', () => {
+            const deliveryID = option.dataset.deliveryId;
+            const itemID = option.dataset.productId;
+
+            updateItemDeliveryOption(itemID, deliveryID);
+            updateOrderSummary();
+        });
+    });
+}
 
 function updateCart() {
     let cartHTML = '';

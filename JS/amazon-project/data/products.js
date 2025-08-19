@@ -729,7 +729,7 @@ export const products = [
 
 export let products = [];
 
-export function loadProducts() {
+export function loadProducts(renderProducts) {
   const xhr = new XMLHttpRequest();
 
   xhr.addEventListener('load', () => {
@@ -738,6 +738,8 @@ export function loadProducts() {
       if (productDetails.type === 'appliance') return new Appliance(productDetails);
       return new Product(productDetails);
     });
+
+    renderProducts();
   });
 
   xhr.open('GET', 'https://supersimplebackend.dev/products');
