@@ -4,6 +4,21 @@ export let cart;
 
 loadFromStorage();
 
+export let cartText = '';
+
+export function loadCart(renderProducts) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+    console.log(xhr.response);
+
+    renderProducts();
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/cart');
+  xhr.send();
+}
+
 export function loadFromStorage() {
     cart = JSON.parse(localStorage.getItem('cart')) || [];
 }

@@ -1,13 +1,30 @@
-import { cart, checkCartItemsQuantity, findMatchingCartItem, findMatchingProductIndex, saveToCart, updateItemDeliveryOption } from '../data/cart.js';
+import { cart, checkCartItemsQuantity, findMatchingCartItem, findMatchingProductIndex, saveToCart, updateItemDeliveryOption, loadCart } from '../data/cart.js';
 import { products, loadProducts } from '../data/products.js';
 import { formatCurrency } from './utilities/money.js';
 import { deliveryOptions, getDeliveryOption, returnDaysWithoutWeekends } from '../data/delivery.js';
 
-loadProducts(() => {
+Promise.all([
+    new Promise((resolve) => {
+        loadProducts(() => {
+            resolve();
+        });
+    }),
+    new Promise((resolve) => {
+        loadCart(() => {
+            resolve();
+        });
+    })
+]).then(() => {
     updateCart();
     updateCheckoutQuantity();
     setAllListeners();
 });
+
+// loadProducts(() => {
+//     updateCart();
+//     updateCheckoutQuantity();
+//     setAllListeners();
+// });
 
 function setAllListeners() {
     document.querySelectorAll('.update-quantity-link').forEach((update) => {
